@@ -3,11 +3,9 @@ package com.example.mvvmprac.view
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.mvvmprac.R
-import com.example.mvvmprac.databinding.ActivityAddBinding
 import com.example.mvvmprac.model.Contact
 import com.example.mvvmprac.viewmodel.ContactViewModel
 import kotlinx.android.synthetic.main.activity_add.*
@@ -17,14 +15,13 @@ import kotlinx.coroutines.launch
 class AddActivity : AppCompatActivity() {
 
     private lateinit var contactViewModel: ContactViewModel
-    private lateinit var biding : ActivityAddBinding
-
     private var id: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add)
 
-        initDatabinding()
+        contactViewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
 
         // intent null check & get extras
         if (intent != null && intent.hasExtra(EXTRA_CONTACT_NAME) && intent.hasExtra(EXTRA_CONTACT_NUMBER)
@@ -50,11 +47,7 @@ class AddActivity : AppCompatActivity() {
             }
         }
     }
-    private fun initDatabinding() {
-        biding = DataBindingUtil.setContentView(this, R.layout.activity_add)
-        contactViewModel = ContactViewModel(this);
-        biding.addViewModel = contactViewModel
-    }
+
     companion object {
         const val EXTRA_CONTACT_NAME = "EXTRA_CONTACT_NAME"
         const val EXTRA_CONTACT_NUMBER = "EXTRA_CONTACT_NUMBER"
